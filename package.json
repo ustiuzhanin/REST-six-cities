@@ -1,0 +1,25 @@
+{
+  "name": "rest_six-cities",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ustiuzhanin/REST-six-cities.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ustiuzhanin/REST-six-cities/issues"
+  },
+  "homepage": "https://github.com/ustiuzhanin/REST-six-cities#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
