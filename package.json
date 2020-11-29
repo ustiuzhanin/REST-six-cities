@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/ustiuzhanin/REST-six-cities#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.10.18"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
