@@ -4,6 +4,8 @@ const offersController = require("../controllers/offers");
 
 const router = express.Router();
 
-router.use("/", offersController.getOffers);
+router.get("/", offersController.getOffers);
+
+router.get("/:offerId", offersController.getOffer);
 
 module.exports = router;

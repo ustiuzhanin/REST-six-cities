@@ -18,8 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/offers", offersRoutes);
-app.get("/cities", cityRoutes);
+app.use("/offers", offersRoutes);
+app.use("/cities", cityRoutes);
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
