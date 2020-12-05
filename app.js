@@ -18,7 +18,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/offers", offersRoutes);
+app.use(offersRoutes);
 app.use("/cities", cityRoutes);
 
 mongoose
