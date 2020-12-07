@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.set("debug", true);
+// mongoose.set("debug", true);
 
 const Schema = mongoose.Schema;
 

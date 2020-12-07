@@ -5,7 +5,6 @@ exports.getOffers = (req, res, next) => {
   Offers.find()
     .populate("host")
     .then((result) => {
-      console.log(result[0]);
       res.status(200).json(result);
     })
     .catch((err) => res.status(500));
@@ -23,7 +22,6 @@ exports.getOffer = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      console.log(offer);
       res.status(200).json(offer);
     })
     .catch((err) => res.status(500));
@@ -37,7 +35,6 @@ exports.getOffersByCity = (req, res, net) => {
     if (err) {
       throw new Error(err);
     }
-    console.log(result);
     res.status(200).json(result);
   });
 };
