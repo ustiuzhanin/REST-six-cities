@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const offersRoutes = require("./routes/offers");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.l4nq1.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`;
 
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
 
 app.use(offersRoutes);
 app.use("/auth", authRoutes);
+app.use("/auth", userRoutes);
+app.use(userRoutes);
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
