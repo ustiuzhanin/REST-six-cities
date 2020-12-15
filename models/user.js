@@ -8,7 +8,8 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     is_pro: { type: Boolean, default: false },
     avatar_url: { type: String, default: "/img/avatar.svg" },
-    offers: { type: Schema.Types.ObjectId, ref: "Offers" },
+    offers: [{ type: Schema.Types.ObjectId, ref: "Offers" }],
+    bookmarks: [{ type: Schema.Types.ObjectId, ref: "Offers" }],
   },
   { collection: "user" }
 );
