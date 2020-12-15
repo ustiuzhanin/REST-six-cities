@@ -7,7 +7,7 @@ exports.getUser = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.updateUser = (req, res, next) => {
+exports.changeBookmark = (req, res, next) => {
   const userId = req.query.userId;
   const offerId = req.query.offerId;
 

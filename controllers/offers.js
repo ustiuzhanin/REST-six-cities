@@ -2,6 +2,7 @@ const Offers = require("../models/offers");
 const User = require("../models/user");
 
 exports.getOffers = (req, res, next) => {
+  console.log(req.isAuth);
   Offers.find()
     .populate("host")
     .then((result) => {
@@ -25,6 +26,10 @@ exports.getOffer = (req, res, next) => {
       res.status(200).json(offer);
     })
     .catch((err) => res.status(500));
+};
+
+exports.createOffer = (req, res, next) => {
+  console.log(req.userId);
 };
 
 exports.getOffersByCity = (req, res, net) => {

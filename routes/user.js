@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/get-user/:userId", userController.getUser);
 
-router.put("/change-bookmark/", userController.updateUser);
+router.put("/change-bookmark/", userController.changeBookmark);
 
 module.exports = router;
