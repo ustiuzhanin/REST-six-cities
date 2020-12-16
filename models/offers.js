@@ -45,8 +45,3 @@ const offersSchema = new Schema(
 );
 
 module.exports = mongoose.model("Offers", offersSchema);
-
-// city: {
-//   type: mongoose.Schema.Types.ObjectId,
-//   ref: "City",
-// },

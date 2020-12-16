@@ -30,6 +30,8 @@ exports.getOffer = (req, res, next) => {
 
 exports.createOffer = (req, res, next) => {
   console.log(req.userId);
+
+  // TODO: crete offer
 };
 
 exports.getOffersByCity = (req, res, net) => {
