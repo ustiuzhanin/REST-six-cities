@@ -3,12 +3,17 @@ const Schema = mongoose.Schema;
 
 const commentSchema = new Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    rating: { type: Number, required: true },
-    comment: { type: String, required: true },
+    comments: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        rating: { type: Number, required: true },
+        comment: { type: String, required: true },
+        createdAt: { type: Date, default: Date.now },
+      },
+      { timestamps: true },
+    ],
   },
-  { timestamps: true },
-  { collection: "comment" }
+  { collection: "comments" }
 );
 
 module.exports = mongoose.model("Comment", commentSchema);

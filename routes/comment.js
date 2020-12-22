@@ -9,4 +9,6 @@ const router = express.Router();
 
 router.post("/comment", isAuth, commentController.createComment);
 
+router.get("/comment/:offerId", commentController.getComments);
+
 module.exports = router;
