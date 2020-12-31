@@ -10,15 +10,8 @@ const offersSchema = new Schema(
       ref: "User",
     },
     city: {
-      name: {
-        type: String,
-        required: true,
-      },
-      location: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true },
-        zoom: { type: Number, required: true },
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "City",
     },
     preview_image: {
       type: String,

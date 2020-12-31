@@ -7,6 +7,7 @@ const commentController = require("../controllers/comment");
 
 const router = express.Router();
 
+// TODO add comment validation
 router.post("/comment", isAuth, commentController.createComment);
 
 router.get("/comment/:offerId", commentController.getComments);
