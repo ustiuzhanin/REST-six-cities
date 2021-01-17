@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// mongoose.set("debug", true);
 
 const Schema = mongoose.Schema;
 
@@ -21,7 +20,7 @@ const offersSchema = new Schema(
     title: { type: String, required: true },
     is_favorite: { type: Boolean, required: true },
     is_premium: { type: Boolean, required: true },
-    rating: { type: Number, required: true },
+    rating: { type: Number, default: 0 },
     type: { type: String, required: true },
     bedrooms: { type: Number, required: true },
     max_adults: { type: Number, required: true },
