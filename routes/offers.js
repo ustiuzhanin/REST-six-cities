@@ -11,6 +11,8 @@ router.get("/offer/:offerId", offersController.getOffer);
 
 router.post("/offer", isAuth, offersController.createOffer);
 
+router.delete("/offer/:offerId", isAuth, offersController.deleteOffer);
+
 router.get("/city-offers/:cityName", offersController.getOffersByCity);
 
 router.get("/cities", offersController.getCities);

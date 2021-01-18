@@ -46,33 +46,30 @@ exports.createOffer = (req, res, next) => {
   } = req.body;
 
   City.findOne({ name: req.body.city_name })
-    .then(
-      (city) => {
-        const newOffer = new Offers({
-          city: city._id,
-          host: req.userId,
-          location: city.location,
-          title,
-          is_favorite,
-          is_premium,
-          type,
-          bedrooms,
-          max_adults,
-          price,
-          description,
-          goods,
-          images,
-          preview_image,
-        });
-        return newOffer.save();
-      }
-      // res.status(200).json()
-    )
+    .then((city) => {
+      const newOffer = new Offers({
+        city: city._id,
+        host: req.userId,
+        location: city.location,
+        title,
+        is_favorite,
+        is_premium,
+        type,
+        bedrooms,
+        max_adults,
+        price,
+        description,
+        goods,
+        images,
+        preview_image,
+      });
+      return newOffer.save();
+    })
     .then((offer) =>
       User.findById(req.userId)
         .then((user) => {
           user.offers.push(offer._id);
-          console.log(user);
+
           return user.save();
         })
         .then(() => res.status(200).json({ message: "offer created!" }))
@@ -81,7 +78,44 @@ exports.createOffer = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getOffersByCity = (req, res, net) => {
+exports.deleteOffer = (req, res, next) => {
+  const offerId = req.params.offerId;
+
+  Offers.findById(offerId)
+    .then((offer) => {
+      if (!offer) {
+        const error = new Error("Could not find offer");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      if (offer.host.toString() !== req.userId) {
+        console.log(offer.host.toString() + " offer");
+        console.log(req.userId + " user");
+        const error = new Error("Not authorized");
+        error.statusCode = 403;
+        throw error;
+      }
+
+      return Offers.findByIdAndRemove(offerId);
+    })
+    .then(() => {
+      return User.findById(req.userId);
+    })
+    .then((user) => {
+      console.log(user.offers);
+      const filteredOffers = user.offers.filter(
+        (offer) => offer.toString() !== offerId
+      );
+
+      user.offers = filteredOffers;
+      return user.save();
+    })
+    .then(() => res.status(200).json({ message: "offer has been deleted!" }))
+    .catch((err) => console.log(err));
+};
+
+exports.getOffersByCity = (req, res, next) => {
   const cityName = req.params.cityName;
   const cityNameCapitalized = cityName[0].toUpperCase() + cityName.slice(1);
 
