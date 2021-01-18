@@ -31,7 +31,6 @@ app.use((req, res, next) => {
 
 app.use(offersRoutes);
 app.use("/auth", authRoutes);
-app.use("/auth", userRoutes);
 app.use(userRoutes);
 app.use(commentRoutes);
 

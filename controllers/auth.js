@@ -24,7 +24,6 @@ exports.signup = (req, res, next) => {
       res.status(201).json({ message: "user created", userId: result._id })
     )
     .catch((err) => console.log(err));
-  res.status(200);
 };
 
 exports.login = (req, res, next) => {
@@ -58,7 +57,9 @@ exports.login = (req, res, next) => {
         process.env.SECRET,
         { expiresIn: "1h" }
       );
-      res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+      res
+        .status(200)
+        .json({ token: token, userId: loadedUser._id.toString(), email });
     })
     .catch((err) => {
       if (!err.statusCode) {
