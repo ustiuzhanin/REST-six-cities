@@ -13,6 +13,8 @@ router.post("/offer", isAuth, offersController.createOffer);
 
 router.delete("/offer/:offerId", isAuth, offersController.deleteOffer);
 
+router.put("/offer/:offerId", isAuth, offersController.updateOffer);
+
 router.get("/city-offers/:cityName", offersController.getOffersByCity);
 
 router.get("/cities", offersController.getCities);
