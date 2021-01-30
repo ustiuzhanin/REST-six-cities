@@ -68,3 +68,32 @@ exports.login = (req, res, next) => {
       next(err);
     });
 };
+
+exports.autoAuth = (req, res, next) => {
+  const authHeader = req.get("Authorization");
+  const token = authHeader.split(" ")[1];
+
+  let decodedToken;
+
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET);
+  } catch (err) {
+    err.statusCode = 401;
+    err.message = "Not Authenticated";
+    throw err;
+  }
+
+  if (!decodedToken) {
+    const error = new Error("Not Authenticated");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  res.status(200).json({
+    token: token,
+    userId: decodedToken.userId,
+    email: decodedToken.email,
+  });
+
+  req.userId = decodedToken.userId;
+};

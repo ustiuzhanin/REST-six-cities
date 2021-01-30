@@ -33,4 +33,6 @@ router.post(
 
 router.post("/login", authController.login);
 
+router.get("/auto-auth", authController.autoAuth);
+
 module.exports = router;

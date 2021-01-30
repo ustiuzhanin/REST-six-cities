@@ -12,8 +12,6 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO
 
 const app = express();
 
-// app.use(auth);
-
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -33,6 +31,14 @@ app.use(offersRoutes);
 app.use("/auth", authRoutes);
 app.use(userRoutes);
 app.use(commentRoutes);
+
+// app.use((error, req, res, next) => {
+//   console.log(error);
+//   const status = error.statusCode || 500;
+//   const message = error.message;
+//   const data = error.data;
+//   res.status(status).json({ message: message, data: data });
+// });
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
