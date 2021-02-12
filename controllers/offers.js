@@ -11,7 +11,12 @@ exports.getOffers = (req, res, next) => {
     .then((result) => {
       res.status(200).json(result);
     })
-    .catch((err) => res.status(500));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.getOffer = (req, res, next) => {
@@ -28,7 +33,12 @@ exports.getOffer = (req, res, next) => {
       }
       res.status(200).json(offer);
     })
-    .catch((err) => res.status(500));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.createOffer = (req, res, next) => {
@@ -81,9 +91,19 @@ exports.createOffer = (req, res, next) => {
           return user.save();
         })
         .then(() => res.status(200).json({ message: "offer created!" }))
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        })
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.updateOffer = (req, res, next) => {
@@ -141,7 +161,12 @@ exports.updateOffer = (req, res, next) => {
     .then(() => {
       res.status(200).json({ message: "Offer has been updated!" });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.deleteOffer = (req, res, next) => {
@@ -176,7 +201,12 @@ exports.deleteOffer = (req, res, next) => {
       return user.save();
     })
     .then(() => res.status(200).json({ message: "offer has been deleted!" }))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.getOffersByCity = (req, res, next) => {
@@ -192,7 +222,9 @@ exports.getOffersByCity = (req, res, next) => {
     })
     .exec((err, result) => {
       if (err) {
-        throw new Error(err);
+        const error = new Error("Cities not found");
+        error.statusCode = 404;
+        throw error;
       }
 
       res.status(200).json(result.filter((offer) => offer.city));
@@ -200,15 +232,14 @@ exports.getOffersByCity = (req, res, next) => {
 };
 
 exports.getCities = (req, res, next) => {
-  Offers.find({}, "city.name")
-    .populate("city")
-    .then((offer) => {
-      const cities = [];
-
-      offer.map(({ city }) => {
-        cities.indexOf(city.name) === -1 ? cities.push(city.name) : null;
-      });
-      res.status(200).json(cities);
+  City.find()
+    .then((result) => {
+      res.status(200).json(result);
     })
-    .catch((err) => res.status(500));
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };

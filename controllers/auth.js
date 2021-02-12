@@ -27,11 +27,11 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  const email = req.body.email;
+  const loginEmail = req.body.email;
   const password = req.body.password;
   let loadedUser;
 
-  User.findOne({ email: email })
+  User.findOne({ email: loginEmail })
     .then((user) => {
       if (!user) {
         const error = new Error("A user with this email could not be found");
@@ -49,17 +49,35 @@ exports.login = (req, res, next) => {
         throw error;
       }
 
+      const {
+        is_pro,
+        avatar_url,
+        offers,
+        bookmarks,
+        _id,
+        name,
+        email,
+      } = loadedUser;
+
       const token = jwt.sign(
         {
-          email: loadedUser.email,
-          userId: loadedUser._id.toString(),
+          email: email,
+          userId: _id.toString(),
         },
         process.env.SECRET,
         { expiresIn: "1h" }
       );
-      res
-        .status(200)
-        .json({ token: token, userId: loadedUser._id.toString(), email });
+
+      res.status(200).json({
+        token: token,
+        userId: _id.toString(),
+        is_pro,
+        avatar_url,
+        offers,
+        bookmarks,
+        name,
+        email,
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -89,11 +107,28 @@ exports.autoAuth = (req, res, next) => {
     throw error;
   }
 
-  res.status(200).json({
-    token: token,
-    userId: decodedToken.userId,
-    email: decodedToken.email,
-  });
+  User.findById(decodedToken.userId)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("A user could not be found");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      const { is_pro, avatar_url, offers, bookmarks, _id, name, email } = user;
+
+      res.status(200).json({
+        token: token,
+        userId: _id.toString(),
+        is_pro,
+        avatar_url,
+        offers,
+        bookmarks,
+        name,
+        email,
+      });
+    })
+    .catch((err) => console.log(err));
 
   req.userId = decodedToken.userId;
 };
