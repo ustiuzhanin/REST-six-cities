@@ -5,8 +5,7 @@ const User = require("../models/user");
 const City = require("../models/city");
 
 exports.getOffers = (req, res, next) => {
-  Offers.find()
-    .populate("host")
+  Offers.find({ _id: { $in: req.query.offers } })
     .populate("city")
     .then((result) => {
       res.status(200).json(result);

@@ -49,15 +49,7 @@ exports.login = (req, res, next) => {
         throw error;
       }
 
-      const {
-        is_pro,
-        avatar_url,
-        offers,
-        bookmarks,
-        _id,
-        name,
-        email,
-      } = loadedUser;
+      const { _id, email, bookmarks } = loadedUser;
 
       const token = jwt.sign(
         {
@@ -71,12 +63,8 @@ exports.login = (req, res, next) => {
       res.status(200).json({
         token: token,
         userId: _id.toString(),
-        is_pro,
-        avatar_url,
-        offers,
-        bookmarks,
-        name,
         email,
+        bookmarks,
       });
     })
     .catch((err) => {
@@ -96,15 +84,7 @@ exports.autoAuth = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, process.env.SECRET);
   } catch (err) {
-    err.statusCode = 401;
-    err.message = "Not Authenticated";
-    throw err;
-  }
-
-  if (!decodedToken) {
-    const error = new Error("Not Authenticated");
-    error.statusCode = 401;
-    throw error;
+    res.status(205).json({ message: "token not valid" });
   }
 
   User.findById(decodedToken.userId)
@@ -115,17 +95,13 @@ exports.autoAuth = (req, res, next) => {
         throw error;
       }
 
-      const { is_pro, avatar_url, offers, bookmarks, _id, name, email } = user;
+      const { _id, email, bookmarks } = user;
 
       res.status(200).json({
         token: token,
         userId: _id.toString(),
-        is_pro,
-        avatar_url,
-        offers,
-        bookmarks,
-        name,
         email,
+        bookmarks,
       });
     })
     .catch((err) => console.log(err));
